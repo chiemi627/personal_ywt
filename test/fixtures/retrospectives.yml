@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  member_id: 
+  date: 
+  objective: 
+  'y': 
+  w: 
+  t: MyString
+
+two:
+  member_id: 
+  date: 
+  objective: 
+  'y': 
+  w: 
+  t: MyString
