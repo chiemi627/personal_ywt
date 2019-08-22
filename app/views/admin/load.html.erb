@@ -1,0 +1,6 @@
+<h1>データ読み込み</h1>
+
+<%= form_with(url:admin_load_path, local: true, multipart: true) do |form| %>
+ <%= form.file_field :retro_file, accept: "text/csv" %>
+ <%= form.submit %>
+<% end %>
