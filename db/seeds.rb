@@ -10,30 +10,30 @@ Team.delete_all
 Member.delete_all
 Retrospective.delete_all
 
-require "csv"
+# require "csv"
 
-teams = {}
+# teams = {}
 
-CSV.foreach('db/seeds/csv/teams.csv', headers: false) do |row|
-    teams[row[0]] = Team.create(name:row[1])
-end
+# CSV.foreach('db/seeds/csv/teams.csv', headers: false) do |row|
+#     teams[row[0]] = Team.create(name:row[1])
+# end
 
-CSV.foreach('db/seeds/csv/members.csv',headers: false) do |row|
-    if teams[row[2]] then
-        Member.create(account:row[0],name:row[1],team_id:teams[row[2]].id)
-    end
-end
+# CSV.foreach('db/seeds/csv/members.csv',headers: false) do |row|
+#     if teams[row[2]] then
+#         Member.create(account:row[0],name:row[1],team_id:teams[row[2]].id)
+#     end
+# end
 
-CSV.foreach('db/seeds/csv/retrospectives.csv',headers: false) do |row|
-    m = Member.find_by(account:row[0])
-    if m then
-        begin
-            Retrospective.create(member_id:m.id,date:row[1],objective:row[2],y:row[3],w:row[4],t:row[5])        
-        rescue => exception
-            puts "#{row[0]}: the following error is found"
-            puts exception        
-        end
-    else
-        puts "#{row[0]} can not be found."
-    end
-end
+# CSV.foreach('db/seeds/csv/retrospectives.csv',headers: false) do |row|
+#     m = Member.find_by(account:row[0])
+#     if m then
+#         begin
+#             Retrospective.create(member_id:m.id,date:row[1],objective:row[2],y:row[3],w:row[4],t:row[5])        
+#         rescue => exception
+#             puts "#{row[0]}: the following error is found"
+#             puts exception        
+#         end
+#     else
+#         puts "#{row[0]} can not be found."
+#     end
+# end

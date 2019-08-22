@@ -1,6 +1,16 @@
 <h1>データ読み込み</h1>
 
+<div>
 <%= form_with(url:admin_load_path, local: true, multipart: true) do |form| %>
- <%= form.file_field :retro_file, accept: "text/csv" %>
- <%= form.submit %>
+    チーム名リスト <%= form.file_field :team_file, accept: "text/csv" %>
+    メンバーリスト <%= form.file_field :member_file, accept: "text/csv" %>
+    <%= form.submit value="load" %>
 <% end %>
+</div>
+
+<div>
+<%= form_with(url:admin_load_path, local: true, multipart: true) do |form| %>
+ 振り返りデータ <%= form.file_field :retro_file, accept: "text/csv" %>
+ <%= form.submit value="load" %>
+<% end %>
+</div>
