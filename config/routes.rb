@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   get 'admin/load'
   post 'admin/load'
+  get 'admin/login'
+  get 'admin/logout'
+  post 'admin/logged_in'
   get 'retro/showall'
   get 'd/:date', to: 'retro#day'
   get 'm/:member_id', to: 'retro#member'

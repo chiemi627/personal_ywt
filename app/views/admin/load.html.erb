@@ -4,13 +4,22 @@
 <%= form_with(url:admin_load_path, local: true, multipart: true) do |form| %>
     チーム名リスト <%= form.file_field :team_file, accept: "text/csv" %>
     メンバーリスト <%= form.file_field :member_file, accept: "text/csv" %>
-    <%= form.submit value="load" %>
+    <%= form.submit value="チームとメンバー情報を登録" %>
 <% end %>
 </div>
 
 <div>
 <%= form_with(url:admin_load_path, local: true, multipart: true) do |form| %>
  振り返りデータ <%= form.file_field :retro_file, accept: "text/csv" %>
- <%= form.submit value="load" %>
+ <%= form.submit value="振り返り追加" %>
 <% end %>
 </div>
+
+<%= form_with(url:admin_load_path, local: true, multipart: true) do |form| %>
+    メンターリスト <%= form.file_field :mentor_file, accept: "text/csv" %>
+    <%= form.submit value="メンター登録" %>
+   <% end %>
+   </div>
+   
+
+<%= link_to "ログアウトする", controller: 'admin', action: 'logout' %>

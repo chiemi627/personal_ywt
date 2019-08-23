@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
-    before_action :basic
-
+    before_action :basic    
     private
 
     def basic
