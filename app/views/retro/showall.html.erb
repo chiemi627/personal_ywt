@@ -25,7 +25,7 @@
 <% end %>
 
 <% @dates.each do |date| %>
-<h3> <%= date %></h3>
+<h3> <%= link_to date, "/d/#{date}" %></h3>
 <table>
     <tr>
         <th>メンバー名</th>
@@ -41,9 +41,9 @@
     <% next if retro.date < date %>
     <% break if retro.date > date %>
     <tr>
-        <td><%= retro.member.name %></td>
+        <td><%= link_to retro.member.name, "/m/#{retro.member_id}" %></td>
         <% if !@parameters[:team] %>
-            <td><%= retro.member.team.name %></td>
+            <td><%= link_to retro.member.team.name, "/t/#{retro.member.team_id}" %></td>
         <% end %>
         <td class="oywt"><%= retro.objective%></td>
         <td class="oywt"><%= retro.y %></td>

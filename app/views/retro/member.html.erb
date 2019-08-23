@@ -1,5 +1,5 @@
 <h1>
- 振り返り一覧 (<%= @member.name %> )
+ 振り返り一覧 (<%= @member.name %>, <%= link_to @member.team.name, "/t/#{@member.team_id}" %> )
 </h1>
 
 <div class="main">
@@ -13,7 +13,7 @@
     </tr>    
     <% @retrospectives.each do |retro| %>
     <tr>
-        <td><%= retro.date %></td>
+        <td><%= link_to retro.date, "/d/#{retro.date}" %></td>
         <td class="oywt"><%= retro.objective%></td>
         <td class="oywt"><%= retro.y %></td>
         <td class="oywt"><%= retro.w %></td>

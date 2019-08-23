@@ -5,8 +5,9 @@
 <div class="main">
 
 <% @teams.each do |team| %>
-<h3><%= Team.find(team).name %></h3>
-<table>
+    <div id="<%= team %>">
+    <h3><%= link_to Team.find(team).name, action: "team", team_id: team %></h3>
+    <table>
     <tr>
         <th>メンバー名</th>
         <th class="oywt">本日の目標</th>
@@ -18,13 +19,14 @@
         <% next if retro.member.team_id < team %>
         <% break if retro.member.team_id > team %>
     <tr>
-        <td><%= retro.member.name %></td>
+        <td><%= link_to retro.member.name, "/m/#{retro.member_id}" %></td>
         <td class="oywt"><%= retro.objective%></td>
         <td class="oywt"><%= retro.y %></td>
         <td class="oywt"><%= retro.w %></td>
         <td class="oywt"><%= retro.t %></td>
     </tr>
     <% end %>
-</table>
+    </table>
+    </div>
 <% end %>
 </div>
