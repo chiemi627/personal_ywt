@@ -12,4 +12,12 @@ class Retrospective < ApplicationRecord
             return Retrospective.joins(:member).where(members: {team_id: team_id}, date: date).order(:date, :member_id)         
         end
     end
+
+    def self.latest_day
+        Retrospective.select(:date).orde("date desc").limit(1)[0].date
+    end
+
+    def self.day_retro(day)
+        Retrospective.where(date: day).joins(:member).order("members.team_id")
+    end
 end

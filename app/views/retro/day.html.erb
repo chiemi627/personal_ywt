@@ -1,0 +1,30 @@
+<h1>
+ 振り返り一覧 (<%= @day %>)
+</h1>
+
+<div class="main">
+
+<% @teams.each do |team| %>
+<h3><%= Team.find(team).name %></h3>
+<table>
+    <tr>
+        <th>メンバー名</th>
+        <th class="oywt">本日の目標</th>
+        <th class="oywt">Y:やったこと</th>
+        <th class="oywt">W:わかったこと</th>
+        <th class="oywt">T:つぎやること</th>
+    </tr>    
+    <% @retrospectives.each do |retro| %>
+        <% next if retro.member.team_id < team %>
+        <% break if retro.member.team_id > team %>
+    <tr>
+        <td><%= retro.member.name %></td>
+        <td class="oywt"><%= retro.objective%></td>
+        <td class="oywt"><%= retro.y %></td>
+        <td class="oywt"><%= retro.w %></td>
+        <td class="oywt"><%= retro.t %></td>
+    </tr>
+    <% end %>
+</table>
+<% end %>
+</div>

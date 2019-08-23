@@ -9,6 +9,16 @@ class RetroController < ApplicationController
 
   end
 
+  def day
+    if params[:date]
+      @day = params[:date]
+    else
+      @day = Retrospective.latest_day
+    end
+    @retrospectives = Retrospective.day_retro(@day)
+    @teams = @retrospectives.collect{|r| r.member.team_id }.uniq
+  end
+
   private
 
   def selected_team(id)
