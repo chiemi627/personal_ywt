@@ -1,0 +1,24 @@
+<h1>
+ 振り返り一覧 (<%= @member.name %> )
+</h1>
+
+<div class="main">
+<table>
+    <tr>
+        <th>日付</th>        
+        <th class="oywt">本日の目標</th>
+        <th class="oywt">Y:やったこと</th>
+        <th class="oywt">W:わかったこと</th>
+        <th class="oywt">T:つぎやること</th>
+    </tr>    
+    <% @retrospectives.each do |retro| %>
+    <tr>
+        <td><%= retro.date %></td>
+        <td class="oywt"><%= retro.objective%></td>
+        <td class="oywt"><%= retro.y %></td>
+        <td class="oywt"><%= retro.w %></td>
+        <td class="oywt"><%= retro.t %></td>
+    </tr>
+    <% end %>
+</table>
+</div>
