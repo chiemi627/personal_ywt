@@ -1,0 +1,31 @@
+<h2>アカウント登録</h2>
+<div class="description">
+あらかじめ受講生またはメンターとして登録された人しかアカウントを作れません。<br/>
+受講生は学籍番号、メンターはメールアドレスで確認します。<br/>
+間違えずに入力してください。
+</div>
+<div class="form">
+<%= form_with model: @user, :url => {:action => :create}, local:true do |form|%>
+    <div>
+        アカウント名（表示名）
+        <%= form.text_field :name %>
+    </div>
+    <div>
+        <%= form.label :email %>
+        <%= form.text_field :email %>
+    </div>
+    <div>
+        学籍番号（受講生のみ）
+        <%= form.text_field :account %>
+    </div>
+    <div>
+        <%= form.label :password %>
+        <%= form.password_field :password %>
+    </div>
+    <div>
+        <%= form.label :password_confirmation, "Confirmation" %>
+        <%= form.password_field :password_confirmation %>
+    </div>
+    <%= form.submit %>
+<% end %>
+</div>

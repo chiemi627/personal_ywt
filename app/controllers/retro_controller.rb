@@ -1,5 +1,8 @@
 class RetroController < ApplicationController
 
+  def index
+  end
+
   def showall
     @parameters = {team: selected_team(params[:team_id]), date: selected_date(params[:date])}
     @retrospectives = Retrospective.select_retro(params[:team_id],params[:date])

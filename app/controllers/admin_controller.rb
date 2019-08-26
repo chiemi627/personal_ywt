@@ -25,7 +25,7 @@ class AdminController < ApplicationController
 
   def logged_in
     if params[:password]== ENV['PYWT_ADMIN_PASSWORD'] then
-      session[:admin]="logged_in"
+      session[:admin]=ENV['PYWT_ADMIN_PASSWORD']
       redirect_to controller: 'admin', action: 'load'
     else
       flash.now[:danger] = "ログイン失敗"
@@ -42,6 +42,7 @@ class AdminController < ApplicationController
   def admin_logged_in
     unless admin_logged_in? then
       redirect_to controller: 'admin', action: 'login'
+    else
     end
   end
 
@@ -49,8 +50,7 @@ class AdminController < ApplicationController
   private 
 
   def admin_logged_in?
-    flash.now[:danger]="ログインしてください"
-    session[:admin]=="logged_in"
+    session[:admin]==ENV['PYWT_ADMIN_PASSWORD']
   end
 
 
