@@ -1,19 +1,40 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>PersonalYwt</title>
+    <title>Personal YWT</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
   <body>
+  <header class="navbar navbar-fixed-top navbar-inverse">
+   <div class="container">
+    <%= link_to "Personal YWT", :root, id: "logo" %>
+    <nav>
+      <ul class="nav navbar-nav navbar-right">
+        <li><%= link_to "Home", :root %></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          YWT<b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu">
+            <li><%= link_to "チーム", "#" %></li>
+            <li><%= link_to "個人", "#" %></li>
+            <li><%= link_to "日付", "#" %></li>
+          </ul>
+        </li>
+        <li><%= link_to "ログイン", :login %></li>
+      </ul>
+    </nav>
+   </div>
+  </header>
   <% flash.each do |message_type, message| %>
     <div class="alert alert-<%= message_type %>"><%= message %></div>
   <% end %>
-    
-  <%= yield %>
+  <div class="container">  
+    <%= yield %>
+  </div>
   </body>
 </html>
