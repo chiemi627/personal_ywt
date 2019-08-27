@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     # メールアドレスをチェックする：一致したらスタッフ登録
     if params[:user][:email] && Mentor.where(email: params[:user][:email]).exists?
       mentor = Mentor.find_by(email: params[:user][:email])
-      @user = User.new(name: mentor.name, email: mentor.email, activated: false, category: mentor.category, password: params[:user][:password], password_confirmation: params[:user][:password_confirmation])
+      @user = User.new(name: mentor.name, email: mentor.email, member_id: mentor.id, activated: false, category: mentor.category, password: params[:user][:password], password_confirmation: params[:user][:password_confirmation])
       if @user.valid?
         @user.save
         UserMailer.account_activation(@user).deliver_now        
@@ -25,7 +25,7 @@ class UsersController < ApplicationController
       end
     elsif params[:user][:account] && Member.where(account: params[:user][:account]).exists? 
       member = Member.find_by(account: params[:user][:account])
-      @user = User.new(name: member.name, email: member.tsukuba_email, category: "student", activated: false, password: params[:user][:password], password_confirmation: params[:user][:password_confirmation])
+      @user = User.new(name: member.name, email: member.tsukuba_email, member_id: member.id, category: "student", activated: false, password: params[:user][:password], password_confirmation: params[:user][:password_confirmation])
       if @user.valid?
         @user.save
         UserMailer.account_activation(@user).deliver_now        

@@ -14,7 +14,7 @@ class Retrospective < ApplicationRecord
     end
 
     def self.latest_day
-        Retrospective.select(:date).orde("date desc").limit(1)[0].date
+        Retrospective.select(:date).order("date desc").limit(1)[0].date
     end
 
     def self.day_retro(day)

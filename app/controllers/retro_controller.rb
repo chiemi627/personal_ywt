@@ -26,24 +26,28 @@ class RetroController < ApplicationController
   def member
     if params[:member_id] && Member.exists?(params[:member_id]) then
       @member = Member.find(params[:member_id])
-      @retrospectives = Retrospective.where(member_id: @member)
-      @dates = @retrospectives.collect{|r| r.date }.uniq
+    elsif !params[:member_id]
+      @member = Member.first
     else
       flash[:danger] = "The member is not found."
       redirect_to :root
     end    
+    @retrospectives = Retrospective.where(member_id: @member)
+    @dates = @retrospectives.collect{|r| r.date }.uniq 
   end
 
   def team
     if params[:team_id] && Team.exists?(params[:team_id]) then
       @team = Team.find(params[:team_id])
-      @retrospectives =  Retrospective.joins(:member).where(members: {team_id: @team}).order(:date, :member_id)
-      @dates = @retrospectives.collect{|r| r.date }.uniq    
+    elsif !params[:team_id]
+      @team = Team.first
     else
       flash[:danger] = "The team is not found."
       redirect_to :root
     end
-  end
+    @retrospectives =  Retrospective.joins(:member).where(members: {team_id: @team}).order(:date, :member_id)
+    @dates = @retrospectives.collect{|r| r.date }.uniq
+end
 
   private
 
