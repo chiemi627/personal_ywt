@@ -10,33 +10,15 @@ class UsersController < ApplicationController
   end
 
   def create
-    # メールアドレスをチェックする：一致したらスタッフ登録
-    if params[:user][:email] && Mentor.where(email: params[:user][:email]).exists?
-      mentor = Mentor.find_by(email: params[:user][:email])
-      @user = User.new(name: mentor.name, email: mentor.email, member_id: mentor.id, activated: false, category: mentor.category, password: params[:user][:password], password_confirmation: params[:user][:password_confirmation])
-      if @user.valid?
-        @user.save
-        UserMailer.account_activation(@user).deliver_now        
-        flash.now[:info] = "確認メールを送りました。メールに含まれるURLをクリックしてアカウントを有効化してください。"
-        redirect_to :root
-      else
-        flash.now[:danger] = @user.errors.full_messages.join(",")
-        redirect_to :root
-      end
-    elsif params[:user][:account] && Member.where(account: params[:user][:account]).exists? 
-      member = Member.find_by(account: params[:user][:account])
-      @user = User.new(name: member.name, email: member.tsukuba_email, member_id: member.id, category: "student", activated: false, password: params[:user][:password], password_confirmation: params[:user][:password_confirmation])
-      if @user.valid?
-        @user.save
-        UserMailer.account_activation(@user).deliver_now        
-        flash.now[:info] = "確認メールを送りました。メールに含まれるURLをクリックしてアカウントを有効化してください。"
-        redirect_to :root
-      else
-        flash.now[:danger] = @user.errors.full_messages.join(",")
-      end
-    else 
-      flash.now[:danger] = "その学生番号は登録されていません。担当教員に問い合わせしてください。"
+    @user = User.new(user_params)
+    if @user.valid?
+      @user.save
+      UserMailer.account_activation(@user).deliver_now
+      flash[:info] = "確認メールを送りました。メールに含まれるURLをクリックしてアカウントを有効化してください。"
       redirect_to :root
+    else
+      flash[:danger] = @user.errors.full_messages.join(",")
+      redirect_to :users_new
     end
   end
 
@@ -46,6 +28,10 @@ class UsersController < ApplicationController
     end
   end  
 
-  private 
+  private
+
+  def user_params
+    params.require(:user).permit(:name, :email, :publish, :password, :password_confirmation)
+  end
 
 end

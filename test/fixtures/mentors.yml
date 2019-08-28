@@ -1,11 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  email: MyString
-  name: MyString
-  category: MyString
-
-two:
-  email: MyString
-  name: MyString
-  category: MyString
+chiemi:
+  id: 1
+  email: "chiemi@a.tsukuba-tech.ac.jp"
+  name: "chiemi watanabe"
+  category: "lecturer"

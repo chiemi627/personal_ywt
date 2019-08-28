@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-    belongs_to :member
     attr_accessor :remember_token, :activation_token
+    before_validation :fill_registered_attributes
     before_save   :downcase_email
     before_create :create_activation_digest
     validates :name, presence: true, length: { maximum: 100 }
@@ -8,7 +8,8 @@ class User < ApplicationRecord
     validates :email, presence: true, length: { maximum: 255 },
                       format: { with: VALID_EMAIL_REGEX },
                       uniqueness: { case_sensitive: false }
-    has_secure_password
+    validate :member_check
+    has_secure_password    
 
     def authenticated?(attribute,token)
         digest = send("#{attribute}_digest")
@@ -16,7 +17,31 @@ class User < ApplicationRecord
         BCrypt::Password.new(digest).is_password?(token)
     end
 
+    def member
+        if category=="student"
+            Member.find(member_id)
+        else
+            Mentor.find(member_id)
+        end
+    end
+
     private
+
+    def member_check
+        unless Mentor.where(email: email).exists? || Member.where(account: Member.tsukuba_student_id_from_email(email)).exists?
+            errors.add(:email, "そのメールアドレスは受講生またはメンターとして登録されていません。")
+        end
+    end
+
+    def fill_registered_attributes
+        if mentor = Mentor.find_by(email: self.email)
+            self.category = mentor.category
+            self.member_id = mentor.id
+        elsif member = Member.find_by(account: Member.tsukuba_student_id_from_email(self.email))
+            self.category = "student"
+            self.member_id = member.id            
+        end
+    end
 
     def User.digest(string)
         cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
