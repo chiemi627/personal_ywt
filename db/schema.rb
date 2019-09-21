@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 2019_08_28_013408) do
     t.datetime "updated_at", null: false
     t.string "password_digest"
     t.string "activation_digest"
-    t.boolean "activated"
+    t.boolean "activated", default: false
     t.datetime "activated_at"
     t.integer "member_id"
     t.string "publish"
