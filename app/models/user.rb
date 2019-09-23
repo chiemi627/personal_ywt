@@ -11,6 +11,8 @@ class User < ApplicationRecord
     validate :member_check
     has_secure_password    
 
+    enum publish: [:everyone, :teamonly, :useronly]
+
     def authenticated?(attribute,token)
         digest = send("#{attribute}_digest")
         return false if digest.nil?

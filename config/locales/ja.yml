@@ -1,0 +1,23 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザ情報
+    attributes:
+      user:
+        name: アカウント名
+        email: emailアドレス
+        publish: 個人振り返りの公開範囲
+        category: 参加種別
+        password: パスワード
+        password_confirmation: パスワード（確認用）
+  enums:
+    user:
+      category:
+        student: 受講生
+        lecturer: 教員
+        mentor: メンター
+
+      publish:
+        everyone: 公開
+        teamonly: チームメンバーのみ公開
+        useronly: 非公開
