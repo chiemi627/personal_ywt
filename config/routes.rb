@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'admin/load'
   post 'admin/load'
   get 'admin/login'
+  get 'admin/index', to: 'admin#login'
   get 'admin/logout'
   post 'admin/logged_in'
   get 'retro/showall'
