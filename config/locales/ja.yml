@@ -16,8 +16,11 @@ ja:
         student: 受講生
         lecturer: 教員
         mentor: メンター
-
       publish:
         everyone: 公開
         teamonly: チームメンバーのみ公開
         useronly: 非公開
+    mentor:
+      category:
+        lecturer: 教員
+        mentor: メンター

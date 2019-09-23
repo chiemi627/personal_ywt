@@ -12,6 +12,7 @@ class User < ApplicationRecord
     has_secure_password    
 
     enum publish: [:everyone, :teamonly, :useronly]
+    enum category: [:student, :lecturer, :mentor]
 
     def authenticated?(attribute,token)
         digest = send("#{attribute}_digest")
@@ -20,7 +21,8 @@ class User < ApplicationRecord
     end
 
     def member
-        if category=="student"
+        if students?
+        # if category=="student"
             Member.find(member_id)
         else
             Mentor.find(member_id)
@@ -40,7 +42,8 @@ class User < ApplicationRecord
             self.category = mentor.category
             self.member_id = mentor.id
         elsif member = Member.find_by(account: Member.tsukuba_student_id_from_email(self.email))
-            self.category = "student"
+            # self.category = "student"
+            self.student!
             self.member_id = member.id            
         end
     end

@@ -21,7 +21,7 @@
             YWT<b class="caret"></b>
             </a>
             <ul class="dropdown-menu">
-            <% if ['lecturer','mentor'].include?(@current_user.category) %>
+            <% if @current_user.lecturer? || @current_user.mentor? %>
               <li><%= link_to "チーム", "/t" %></li>
               <li><%= link_to "個人", "/m" %></li>
               <li><%= link_to "日付", "/d" %></li>
