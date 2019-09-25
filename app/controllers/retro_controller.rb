@@ -3,7 +3,7 @@ class RetroController < ApplicationController
   def index
     if logged_in?
       @retrospectives = Retrospective.where(member_id: @current_user.member_id)
-      @dates = @retrospectives.collect{|r| r.date }.uniq   
+      @dates = @retrospectives.collect{|r| r.date }.uniq.sort!{|a, b| b <=> a }   
     end
   end
 
@@ -18,7 +18,7 @@ class RetroController < ApplicationController
     @team_items = Team.all.collect{|t| [t.name,t.id]}.unshift(["全てのチーム","all"])
     @date_items = Retrospective.select(:date).distinct.collect{|d| [d.date]}.unshift(["全ての日","all"])
 
-    @dates = @retrospectives.collect{|r| r.date }.uniq
+    @dates = @retrospectives.collect{|r| r.date }.uniq.sort!{|a, b| b <=> a }
 
   end
 
@@ -42,7 +42,7 @@ class RetroController < ApplicationController
       redirect_to :root
     end    
     @retrospectives = Retrospective.where(member_id: @member)
-    @dates = @retrospectives.collect{|r| r.date }.uniq 
+    @dates = @retrospectives.collect{|r| r.date }.uniq.sort!{|a, b| b <=> a } 
   end
 
   def team
@@ -56,7 +56,7 @@ class RetroController < ApplicationController
     end
     if logged_in?
       @retrospectives = Retrospective.select_team_retro(@current_user,@team.id)
-      @dates = @retrospectives.collect{|r| r.date }.uniq
+      @dates = @retrospectives.collect{|r| r.date }.uniq.sort!{|a, b| b <=> a }
     end
 end
 
