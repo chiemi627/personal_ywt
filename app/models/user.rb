@@ -24,6 +24,9 @@ class User < ApplicationRecord
     end
 
     def member
+        unless self.member_id
+            return 
+        end
         if student?
             Member.find(member_id)
         else
