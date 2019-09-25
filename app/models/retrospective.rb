@@ -64,5 +64,11 @@ class Retrospective < ApplicationRecord
             return Retrospective.joins(:member).where(members: {team_id: team_id}, date: date).order(:date, :member_id) 
         end
     end
+
+    def self.member_retro(user,member_id)
+        if (user.student? && Member.retro_readable?(user,member_id)) || user.lecturer? || user.mentor?
+            return Retrospective.where(member_id: member_id)
+        end
+    end
 end
 

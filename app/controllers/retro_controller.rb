@@ -43,6 +43,7 @@ class RetroController < ApplicationController
     end
     @retrospectives = Retrospective.day_retro(@day)
     @teams = @retrospectives.collect{|r| r.member.team_id }.uniq
+    @date_items = Retrospective.select(:date).distinct.collect{|d| [d.date]}
   end
 
   def member
@@ -54,8 +55,12 @@ class RetroController < ApplicationController
       flash[:danger] = "The member is not found."
       redirect_to :root
     end    
-    @retrospectives = Retrospective.where(member_id: @member)
-    @dates = @retrospectives.collect{|r| r.date }.uniq.sort!{|a, b| b <=> a } 
+    if logged_in?
+      @retrospectives = Retrospective.member_retro(@current_user,@member.id)
+      if @retrospectives
+        @dates = @retrospectives.collect{|r| r.date }.uniq.sort!{|a, b| b <=> a } 
+      end
+    end
   end
 
   def team

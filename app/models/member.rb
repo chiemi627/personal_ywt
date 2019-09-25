@@ -30,5 +30,19 @@ class Member < ApplicationRecord
         results.push(member_id)
         return results.uniq
     end
+
+    def self.retro_readable?(you, target_member_id)
+        target = User.find_by(member_id: target_member_id)
+        unless target
+            return false
+        end        
+        #require 'byebug'; byebug
+        if target.everyone?
+            return true 
+        elsif target.member_only? && target.member.team_id == you.member.team_id
+            return true
+        end
+        return false
+    end
     
 end

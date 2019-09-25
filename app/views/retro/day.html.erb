@@ -3,6 +3,10 @@
 </h1>
 
 <div class="main">
+<%= form_with(url: :d, local: true, method: :get) do |form| %>
+    <%= form.select :date, @date_items, { :selected => @day} %>
+    <%= form.submit value: "絞り込み" %>
+<% end %>
 
 <% @teams.each do |team| %>
     <div id="<%= team %>">
