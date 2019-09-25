@@ -43,7 +43,7 @@ class RetroController < ApplicationController
     end
     @date_items = Retrospective.select(:date).distinct.collect{|d| [d.date]}
     if logged_in?
-      @retrospectives = Retrospective.day_retro(@day)
+      @retrospectives = Retrospective.day_retro(@current_user,@day)
       if @retrospectives
         @teams = @retrospectives.collect{|r| r.member.team_id }.uniq
       end

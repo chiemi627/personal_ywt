@@ -19,7 +19,7 @@ class Retrospective < ApplicationRecord
         Retrospective.select(:date).order("date desc").limit(1)[0].date
     end
 
-    def self.day_retro(day)
+    def self.day_retro(user,day)
         if user.student?
             return Retrospective.joins(:user).where(date: day, users: {publish: :everyone}).includes([member: :team]).order("members.team_id")
         else
