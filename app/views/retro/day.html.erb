@@ -8,6 +8,7 @@
     <%= form.submit value: "絞り込み" %>
 <% end %>
 
+<% if @teams %>
 <% @teams.each do |team| %>
     <div id="<%= team %>">
     <h3><%= link_to Team.find(team).name, action: "team", team_id: team %></h3>
@@ -32,5 +33,6 @@
     <% end %>
     </table>
     </div>
+<% end %>
 <% end %>
 </div>

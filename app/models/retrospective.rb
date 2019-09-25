@@ -20,7 +20,11 @@ class Retrospective < ApplicationRecord
     end
 
     def self.day_retro(day)
-        Retrospective.where(date: day).joins(:member).includes([member: :team]).order("members.team_id")
+        if user.student?
+            return Retrospective.joins(:user).where(date: day, users: {publish: :everyone}).includes([member: :team]).order("members.team_id")
+        else
+            Retrospective.where(date: day).joins(:member).includes([member: :team]).order("members.team_id")
+        end
     end
 
     def self.all_readable_retro(user)

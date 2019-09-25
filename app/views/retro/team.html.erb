@@ -8,6 +8,7 @@
     <%= form.submit value: "選択" %>
 <% end %>
 
+<% if @dates %>
 <% @dates.each do |date| %>
 <h3> <%= link_to date, "/d/#{date}" %></h3>
 <table>
@@ -30,5 +31,6 @@
     </tr>
     <% end %>
 </table>
+<% end %>
 <% end %>
 </div>

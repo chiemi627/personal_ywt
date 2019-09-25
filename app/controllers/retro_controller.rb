@@ -41,9 +41,13 @@ class RetroController < ApplicationController
     else
       @day = Retrospective.latest_day
     end
-    @retrospectives = Retrospective.day_retro(@day)
-    @teams = @retrospectives.collect{|r| r.member.team_id }.uniq
     @date_items = Retrospective.select(:date).distinct.collect{|d| [d.date]}
+    if logged_in?
+      @retrospectives = Retrospective.day_retro(@day)
+      if @retrospectives
+        @teams = @retrospectives.collect{|r| r.member.team_id }.uniq
+      end
+    end
   end
 
   def member
@@ -72,10 +76,10 @@ class RetroController < ApplicationController
       flash[:danger] = "The team is not found."
       redirect_to :root
     end
+    @team_items = Team.all.collect{|t| [t.name,t.id]}
     if logged_in?      
       @retrospectives = Retrospective.select_team_retro(@current_user,@team.id)
       @dates = @retrospectives.collect{|r| r.date }.uniq.sort!{|a, b| b <=> a }
-      @team_items = Team.all.collect{|t| [t.name,t.id]}
     end
 end
 
