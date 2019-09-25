@@ -3,6 +3,10 @@
 </h1>
 
 <div class="main">
+<%= form_with(url: :t, local: true, method: :get) do |form| %>
+    <%= form.select :team_id, @team_items, { :selected => @team.id} %>
+    <%= form.submit value: "選択" %>
+<% end %>
 
 <% @dates.each do |date| %>
 <h3> <%= link_to date, "/d/#{date}" %></h3>

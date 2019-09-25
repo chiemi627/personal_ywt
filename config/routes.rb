@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'admin/logout'
   post 'admin/logged_in'
   get 'retro/showall'
+  get 'retro/latest'
   get 'd/:date', to: 'retro#day'
   get 'd', to: 'retro#day'
   get 'm/:member_id', to: 'retro#member'

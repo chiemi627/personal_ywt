@@ -2,9 +2,22 @@ class RetroController < ApplicationController
 
   def index
     if logged_in?
-      @retrospectives = Retrospective.where(member_id: @current_user.member_id)
-      @dates = @retrospectives.collect{|r| r.date }.uniq.sort!{|a, b| b <=> a }   
+      if @current_user.student? 
+        @retrospectives = Retrospective.where(member_id: @current_user.member_id)
+        @dates = @retrospectives.collect{|r| r.date }.uniq.sort!{|a, b| b <=> a }   
+      else
+        redirect_to :retro_latest
+      end
     end
+  end
+
+  def latest
+    @day = Retrospective.latest_day    
+    @parameters = {date: @day}
+    @retrospectives = Retrospective.day_retro(@day)
+    @team_items = Team.all.collect{|t| [t.name,t.id]}.unshift(["全てのチーム","all"])
+    @date_items = Retrospective.select(:date).distinct.collect{|d| [d.date]}.unshift(["全ての日","all"])
+    @dates = [@day]
   end
 
   def showall
@@ -54,9 +67,10 @@ class RetroController < ApplicationController
       flash[:danger] = "The team is not found."
       redirect_to :root
     end
-    if logged_in?
+    if logged_in?      
       @retrospectives = Retrospective.select_team_retro(@current_user,@team.id)
       @dates = @retrospectives.collect{|r| r.date }.uniq.sort!{|a, b| b <=> a }
+      @team_items = Team.all.collect{|t| [t.name,t.id]}
     end
 end
 

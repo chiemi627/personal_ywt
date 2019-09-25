@@ -20,7 +20,7 @@ class Retrospective < ApplicationRecord
     end
 
     def self.day_retro(day)
-        Retrospective.where(date: day).joins(:member).order("members.team_id")
+        Retrospective.where(date: day).joins(:member).includes([member: :team]).order("members.team_id")
     end
 
     def self.all_readable_retro(user)
