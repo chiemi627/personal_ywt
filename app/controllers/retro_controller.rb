@@ -31,7 +31,7 @@ class RetroController < ApplicationController
     @parameters = {team: selected_team(params[:team_id]), date: selected_date(params[:date])}
     @retrospectives = Retrospective.select_retro(@current_user,params[:team_id],params[:date])
     @team_items = Team.all.collect{|t| [t.name,t.id]}.unshift(["全てのチーム","all"])
-    @date_items = Retrospective.select(:date).distinct.collect{|d| [d.date]}.unshift(["全ての日","all"])
+    @date_items = Retrospective.select(:date).distinct.collect{|d| [d.date]}.sort!{|a, b| b <=> a }.unshift(["全ての日","all"])
 
     @dates = @retrospectives.collect{|r| r.date }.uniq.sort!{|a, b| b <=> a }
 
