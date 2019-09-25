@@ -14,7 +14,9 @@ class RetroController < ApplicationController
   def latest
     @day = Retrospective.latest_day    
     @parameters = {date: @day}
-    @retrospectives = Retrospective.day_retro(@day)
+    if logged_in?
+      @retrospectives = Retrospective.day_retro(@current_user,@day)
+    end
     @team_items = Team.all.collect{|t| [t.name,t.id]}.unshift(["全てのチーム","all"])
     @date_items = Retrospective.select(:date).distinct.collect{|d| [d.date]}.unshift(["全ての日","all"])
     @dates = [@day]
