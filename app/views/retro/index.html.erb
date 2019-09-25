@@ -1,3 +1,4 @@
-個人振り返り
-
-<%= link_to "全振り返りを表示","/retro/showall" %> 
+<% if @retrospectives %>
+    <h1> 個人振り返り</h1>
+    <%= render 'layouts/personal_retro' %>
+<% end %>

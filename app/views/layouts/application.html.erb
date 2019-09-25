@@ -27,7 +27,7 @@
               <li><%= link_to "日付", "/d" %></li>
             <% else %>
               <li><%= link_to "チーム", "/t/#{@current_user.member.team_id}" %></li>
-              <li><%= link_to "個人", "/m/#{@current_user.member.id}" %></li>
+              <li><%= link_to "個人", :root %></li>
           <% end %>
             </ul>
           </li>

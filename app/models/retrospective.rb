@@ -1,13 +1,16 @@
 class Retrospective < ApplicationRecord
     belongs_to :member
+    belongs_to :user, foreign_key: :member_id, primary_key: :member_id
 
-    def self.select_retro(team_id,date)
+    def self.select_retro(current_user,team_id,date)
         if !team_id || (team_id=="all" && date=="all") then
-            return Retrospective.all.order(:date, :member_id)       
+            # return Retrospective.all.order(:date, :member_id)
+            return all_readable_retro(current_user)      
         elsif team_id=="all" then
             return Retrospective.where(date: date).order(:date, :member_id)             
         elsif date=="all" then
-            return Retrospective.joins(:member).where(members: {team_id: team_id}).order(:date, :member_id)        
+            #return Retrospective.joins(:member).where(members: {team_id: team_id}).order(:date, :member_id)    
+            return select_team_retro(current_user)    
         else
             return Retrospective.joins(:member).where(members: {team_id: team_id}, date: date).order(:date, :member_id)         
         end
@@ -20,4 +23,26 @@ class Retrospective < ApplicationRecord
     def self.day_retro(day)
         Retrospective.where(date: day).joins(:member).order("members.team_id")
     end
+
+    def self.all_readable_retro(user)
+        if user.student?
+            return Retrospective.joins(:user).where(users: {publish: :everyone}).order(:date, :member_id)
+        else
+            return Retrospective.all.includes([member: :team]).order(:date, :member_id)
+        end
+    end
+
+    def self.select_team_retro(user,team_id)
+        if user.student?
+            if user.member.team_id == team_id
+                member_ids = Member.retro_readable_members(user.member_id,team_id)
+                return Retrospective.where(member_id: member_ids).includes(:member)
+            else
+                return Retrospective.joins([:member,:user]).where(users: {publish: :everyone}).where(members: {team_id: team_id}).includes(:member).order(:date, :member_id) 
+            end
+        else
+            return Retrospective.joins(:member).where(members: {team_id: team_id}).order(:date, :member_id) 
+        end
+    end
 end
+

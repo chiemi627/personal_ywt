@@ -14,6 +14,9 @@ class User < ApplicationRecord
     enum publish: [:everyone, :teamonly, :useronly]
     enum category: [:student, :lecturer, :mentor]
 
+    has_many :retrospectives, foreign_key: :member_id, primary_key: :member_id
+    belongs_to :member
+
     def authenticated?(attribute,token)
         digest = send("#{attribute}_digest")
         return false if digest.nil?
@@ -21,8 +24,7 @@ class User < ApplicationRecord
     end
 
     def member
-        if students?
-        # if category=="student"
+        if student?
             Member.find(member_id)
         else
             Mentor.find(member_id)
@@ -42,8 +44,7 @@ class User < ApplicationRecord
             self.category = mentor.category
             self.member_id = mentor.id
         elsif member = Member.find_by(account: Member.tsukuba_student_id_from_email(self.email))
-            # self.category = "student"
-            self.student!
+            self.category = "student"
             self.member_id = member.id            
         end
     end

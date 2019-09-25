@@ -1,11 +1,20 @@
 class RetroController < ApplicationController
 
   def index
+    if logged_in?
+      @retrospectives = Retrospective.where(member_id: @current_user.member_id)
+      @dates = @retrospectives.collect{|r| r.date }.uniq   
+    end
   end
 
   def showall
+    unless logged_in?
+      flash[:danger]="ログインをしなければ振り返りを閲覧することはできません。"
+      redirect_to :root
+      return
+    end
     @parameters = {team: selected_team(params[:team_id]), date: selected_date(params[:date])}
-    @retrospectives = Retrospective.select_retro(params[:team_id],params[:date])
+    @retrospectives = Retrospective.select_retro(@current_user,params[:team_id],params[:date])
     @team_items = Team.all.collect{|t| [t.name,t.id]}.unshift(["全てのチーム","all"])
     @date_items = Retrospective.select(:date).distinct.collect{|d| [d.date]}.unshift(["全ての日","all"])
 
@@ -45,8 +54,10 @@ class RetroController < ApplicationController
       flash[:danger] = "The team is not found."
       redirect_to :root
     end
-    @retrospectives =  Retrospective.joins(:member).where(members: {team_id: @team}).order(:date, :member_id)
-    @dates = @retrospectives.collect{|r| r.date }.uniq
+    if logged_in?
+      @retrospectives = Retrospective.select_team_retro(@current_user,@team.id)
+      @dates = @retrospectives.collect{|r| r.date }.uniq
+    end
 end
 
   private

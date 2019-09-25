@@ -2,23 +2,4 @@
  振り返り一覧 (<%= @member.name %>, <%= link_to @member.team.name, "/t/#{@member.team_id}" %> )
 </h1>
 
-<div class="main">
-<table>
-    <tr>
-        <th>日付</th>        
-        <th class="oywt">本日の目標</th>
-        <th class="oywt">Y:やったこと</th>
-        <th class="oywt">W:わかったこと</th>
-        <th class="oywt">T:つぎやること</th>
-    </tr>    
-    <% @retrospectives.each do |retro| %>
-    <tr>
-        <td><%= link_to retro.date, "/d/#{retro.date}" %></td>
-        <td class="oywt"><%= retro.objective%></td>
-        <td class="oywt"><%= retro.y %></td>
-        <td class="oywt"><%= retro.w %></td>
-        <td class="oywt"><%= retro.t %></td>
-    </tr>
-    <% end %>
-</table>
-</div>
+<%= render 'layouts/personal_retro' %>
