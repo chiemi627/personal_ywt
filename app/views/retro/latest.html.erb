@@ -1,3 +1,4 @@
+<% unless @empty %>
 <h1>
  振り返り一覧 (
 <% if @parameters[:team] then %>
@@ -54,3 +55,6 @@
 </table>
 <% end %>
 </div>
+<% else %>
+振り返りデータが１件もありません。まずは登録をしてください。
+<% end %>

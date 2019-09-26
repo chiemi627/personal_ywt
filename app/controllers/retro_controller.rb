@@ -12,6 +12,10 @@ class RetroController < ApplicationController
   end
 
   def latest
+    unless Retrospective.first
+      @empty = true
+      return
+    end
     @day = Retrospective.latest_day    
     @parameters = {date: @day}
     if logged_in?

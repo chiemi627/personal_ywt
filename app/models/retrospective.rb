@@ -1,6 +1,6 @@
 class Retrospective < ApplicationRecord
     belongs_to :member
-    belongs_to :user, foreign_key: :member_id, primary_key: :member_id
+    has_one :user, foreign_key: :member_id, primary_key: :member_id
 
     def self.select_retro(current_user,team_id,date)
         if !team_id || (team_id=="all" && date=="all") then
