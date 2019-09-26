@@ -34,6 +34,12 @@ class User < ApplicationRecord
         end
     end
 
+    def User.digest(string)
+        cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+        BCrypt::Password.create(string, cost: cost)
+    end
+
     private
 
     def member_check
@@ -50,12 +56,6 @@ class User < ApplicationRecord
             self.category = "student"
             self.member_id = member.id            
         end
-    end
-
-    def User.digest(string)
-        cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
-                                                  BCrypt::Engine.cost
-        BCrypt::Password.create(string, cost: cost)
     end
 
     def User.new_token

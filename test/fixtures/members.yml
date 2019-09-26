@@ -1,11 +1,25 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  account: MyString
-  name: 
+  id: 1
+  account: one
+  name: one
+  team_id: 1
+  
+two:
+  id: 2
+  account: two
+  name: two
   team_id: 1
 
-two:
-  account: MyString
-  name: 
-  team_id: 1
+three:
+  id: 3
+  account: three
+  name: three
+  team_id: 2
+
+four:
+  id: 4
+  account: four
+  name: four
+  team_id: 2

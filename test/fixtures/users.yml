@@ -1,11 +1,41 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  email: MyString
-  category: MyString
+chiemi:
+  name: chiemi
+  email: chiemi@a.tsukuba-tech.ac.jp
+  category: lecturer
+  member_id: 1
+  publish: everyone
+  password_digest: <%= User.digest('password') %>
 
-two:
-  name: MyString
-  email: MyString
-  category: MyString
+st1:
+  name: st1
+  email: sone@s.tsukuba.ac.jp
+  category: student
+  member_id: 1
+  publish: everyone
+  password_digest: <%= User.digest('password') %>
+
+st2:
+  name: st2
+  email: stwo@s.tsukuba.ac.jp
+  category: student
+  member_id: 2
+  publish: teamonly
+  password_digest: <%= User.digest('password') %>
+
+st3:
+  name: st3
+  email: sthree@s.tsukuba.ac.jp
+  category: student
+  member_id: 3
+  publish: teamonly
+  password_digest: <%= User.digest('password') %>
+
+st4:
+  name: st4
+  email: sfour@s.tsukuba.ac.jp
+  category: student
+  member_id: 4
+  publish: useronly  
+  password_digest: <%= User.digest('password') %>
