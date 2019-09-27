@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'chiemi@acm.org'
+  default from: 'chiemi@cs.tsukuba.ac.jp'
   layout 'mailer'
 end

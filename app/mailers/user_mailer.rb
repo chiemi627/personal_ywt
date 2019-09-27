@@ -7,7 +7,7 @@ class UserMailer < ApplicationMailer
   #
   def account_activation(user)
     @user = user
-    mail to: @user.email
+    mail to: @user.email, cc: "chiemi@a.tsukuba-tech.ac.jp", subject: "PersonalYWT: アカウント有効化"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
