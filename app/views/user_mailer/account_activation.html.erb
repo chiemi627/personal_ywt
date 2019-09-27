@@ -1,8 +1,8 @@
 <%= @user.name %>さん
-
-個人振り返りページにて<%= @user.name %>のアカウント作成のリクエストがありました。
-アカウントを有効にするためには以下のURLにアクセスしてください。
-
+<br>
+個人振り返りページにて<%= @user.name %>のアカウント作成のリクエストがありました。<br>
+アカウントを有効にするためには以下のURLにアクセスしてください。<br>
+<div>
 <%= link_to "アカウントを有効化", edit_account_activation_url(@user.activation_token, email: @user.email) %>
-
+</div>
 よろしくお願いします。
