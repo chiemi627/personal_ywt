@@ -5,7 +5,7 @@ class AdminController < ApplicationController
 
   def load
     if params[:retro_file] then
-      load_retro_file(params[:retro_file])
+      Retrospective.load_manaba_file(params[:retro_file].path)
       flash.now[:success] = "振り返りファイルを読み込みました。"
     end
 
@@ -74,7 +74,7 @@ class AdminController < ApplicationController
       end
     end
   end
-  
+
   def load_retro_file(file)
     CSV.foreach(file.path, headers: false) do |row|
       m = Member.find_by(account:row[0])

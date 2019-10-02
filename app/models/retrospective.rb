@@ -74,5 +74,33 @@ class Retrospective < ApplicationRecord
             return Retrospective.where(member_id: member_id)
         end
     end
+
+    def self.load_manaba_file(file)
+        require 'csv'
+        csv_data = CSV.read(file,'r:BOM|UTF-8', headers: false)
+        csv_data.each do |row|
+            if row[0] !~ /^#/ && row[14]
+                stid = row[5]
+                date = row[14].match(/^(\d{4}-\d{2}-\d{2}) \w*/)[1]                
+                o = row[16]
+                y = row[17]
+                w = row[18]
+                t = row[19]
+                m = Member.find_by(account:stid)
+                if m then
+                    begin
+                        Retrospective.create(member_id:m.id,date:date,objective:o,y:y,w:w,t:t)
+                    rescue => exception
+                        puts "#{stid}: the following error is found"
+                        puts exception        
+                    end
+                else
+                    puts "#{stid} can not be found."
+                end    
+          
+            end
+        end
+    end
+
 end
 
