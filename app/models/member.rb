@@ -1,6 +1,7 @@
 class Member < ApplicationRecord
-    belongs_to :team    
+    belongs_to :team
     has_many :retrospectives
+    has_one :user
 
     def tsukuba_email
         Member.tsukuba_email(account)
@@ -23,4 +24,25 @@ class Member < ApplicationRecord
         "20#{$1}"
     end
 
+    def self.retro_readable_members(member_id,team_id)
+        members = Member.joins(:user).where(team_id: team_id).where(users: {publish: [:teamonly,:everyone]}).select(:member_id)
+        results =  members.collect{|r| r.member_id }
+        results.push(member_id)
+        return results.uniq
+    end
+
+    def self.retro_readable?(you, target_member_id)
+        target = User.find_by(member_id: target_member_id)
+        unless target
+            return false
+        end        
+        #require 'byebug'; byebug
+        if target.everyone?
+            return true 
+        elsif target.member_only? && target.member.team_id == you.member.team_id
+            return true
+        end
+        return false
+    end
+    
 end

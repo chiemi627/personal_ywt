@@ -5,3 +5,8 @@ chiemi:
   email: "chiemi@a.tsukuba-tech.ac.jp"
   name: "chiemi watanabe"
   category: "lecturer"
+hinako:
+  id: 2
+  email: "izumi@example.com"
+  name: "hinako izumi"
+  category: "mentor"

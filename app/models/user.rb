@@ -11,6 +11,12 @@ class User < ApplicationRecord
     validate :member_check
     has_secure_password    
 
+    enum publish: [:everyone, :teamonly, :useronly]
+    enum category: [:student, :lecturer, :mentor]
+
+    has_many :retrospectives, foreign_key: :member_id, primary_key: :member_id
+    belongs_to :member
+
     def authenticated?(attribute,token)
         digest = send("#{attribute}_digest")
         return false if digest.nil?
@@ -18,11 +24,20 @@ class User < ApplicationRecord
     end
 
     def member
-        if category=="student"
+        unless self.member_id
+            return 
+        end
+        if student?
             Member.find(member_id)
         else
             Mentor.find(member_id)
         end
+    end
+
+    def User.digest(string)
+        cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+        BCrypt::Password.create(string, cost: cost)
     end
 
     private
@@ -41,12 +56,6 @@ class User < ApplicationRecord
             self.category = "student"
             self.member_id = member.id            
         end
-    end
-
-    def User.digest(string)
-        cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
-                                                  BCrypt::Engine.cost
-        BCrypt::Password.create(string, cost: cost)
     end
 
     def User.new_token

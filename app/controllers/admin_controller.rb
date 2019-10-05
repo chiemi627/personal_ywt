@@ -5,7 +5,7 @@ class AdminController < ApplicationController
 
   def load
     if params[:retro_file] then
-      load_retro_file(params[:retro_file])
+      Retrospective.load_manaba_file(params[:retro_file].path)
       flash.now[:success] = "振り返りファイルを読み込みました。"
     end
 
@@ -74,13 +74,13 @@ class AdminController < ApplicationController
       end
     end
   end
-  
+
   def load_retro_file(file)
     CSV.foreach(file.path, headers: false) do |row|
       m = Member.find_by(account:row[0])
       if m then
           begin
-              Retrospective.create(member_id:m.id,date:row[1],objective:row[2],y:row[3],w:row[4],t:row[5])        
+              Retrospective.create(member_id:m.id,date:row[1],objective:row[2],y:row[3],w:row[4],t:row[5])
           rescue => exception
               puts "#{row[0]}: the following error is found"
               puts exception        

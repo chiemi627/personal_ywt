@@ -1,0 +1,60 @@
+<% unless @empty %>
+<h1>
+ 振り返り一覧 (
+<% if @parameters[:team] then %>
+<%= @parameters[:team].name %>  
+<% else %>
+全員
+<% end %>
+)
+</h1>
+
+<div class="main">
+<%= form_with(url: retro_showall_path, local: true, method: :get) do |form| %>
+    <% if @parameters[:team] %>
+        <%= form.select :team_id, @team_items, { :selected => @parameters[:team].id} %>
+    <% else %>
+        <%= form.select :team_id, @team_items %>
+    <% end %>
+
+    <% if @parameters[:date] %>
+        <%= form.select :date, @date_items, { :selected => @parameters[:date]} %>
+    <% else %>
+        <%= form.select :date, @date_items %>
+    <% end %>
+    <%= form.submit value: "絞り込み" %>
+<% end %>
+
+<% @dates.each do |date| %>
+<h3> <%= link_to date, "/d/#{date}" %></h3>
+<table>
+    <tr>
+        <th>メンバー名</th>
+        <% if !@parameters[:team] %>
+            <th>チーム名</th>
+        <% end %> 
+        <th class="oywt">本日の目標</th>
+        <th class="oywt">Y:やったこと</th>
+        <th class="oywt">W:わかったこと</th>
+        <th class="oywt">T:つぎやること</th>
+    </tr>    
+    <% @retrospectives.each do |retro| %>
+    <% next if retro.date < date %>
+    <% break if retro.date > date %>
+    <tr>
+        <td><%= link_to retro.member.name, "/m/#{retro.member_id}" %></td>
+        <% if !@parameters[:team] %>
+            <td><%= link_to retro.member.team.name, "/t/#{retro.member.team_id}" %></td>
+        <% end %>
+        <td class="oywt"><%= retro.objective%></td>
+        <td class="oywt"><%= retro.y %></td>
+        <td class="oywt"><%= retro.w %></td>
+        <td class="oywt"><%= retro.t %></td>
+    </tr>
+    <% end %>
+</table>
+<% end %>
+</div>
+<% else %>
+振り返りデータが１件もありません。まずは登録をしてください。
+<% end %>
