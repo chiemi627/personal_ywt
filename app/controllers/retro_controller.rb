@@ -47,7 +47,7 @@ class RetroController < ApplicationController
     else
       @day = Retrospective.latest_day
     end
-    @date_items = Retrospective.select(:date).distinct.collect{|d| [d.date]}
+    @date_items = Retrospective.select(:date).distinct.collect{|d| [d.date]}.sort!{|a, b| b <=> a }.unshift(["全ての日","all"])
     if logged_in?
       @retrospectives = Retrospective.day_retro(@current_user,@day)
       if @retrospectives
